@@ -8,6 +8,9 @@ import useSWR from 'swr'
 import Loading from '../[name]/loading'
 import { validateApiData } from '@/core/apiHandlers/clientApiHandler'
 import { fireConfirmationModal } from '@/lib/components/modals/confirmationModals'
+import LogoutButton from "@/app/components/logout-button";
+import verifyAuth from "@/lib/authentication/is-auth";
+import { redirect } from "next/navigation";
 
 const AdminPage = (): JSX.Element => {
   const {
@@ -20,8 +23,23 @@ const AdminPage = (): JSX.Element => {
   const admin_password = 'admin'
   const [login, setLogin] = useState('')
   const [password, setPassword] = useState('')
+
+  // const {
+  //   data: auth
+  // } = useSWR(`@/lib/authentication/is-auth`)
+  
+  // if (auth) {redirect("/login")}
+
   if (isLoading) return <Loading />
-  if (!(admin_login === login && admin_password === password)) return <AdminLoginForm login={login} setLogin={setLogin} password={password} setPassword={setPassword} />
+  // if (!(admin_login === login && admin_password === password)) {
+  //   return <AdminLoginForm 
+  //   login={login} 
+  //   setLogin={setLogin} 
+  //   password={password} 
+  //   setPassword={setPassword}
+  //   loggedIn={true} 
+  //   />
+  // }
   if (error != null)
     return (
       <div className="flex w-full min-h-screen items-center justify-center text-center h2">
@@ -65,6 +83,7 @@ const AdminPage = (): JSX.Element => {
       .catch(console.error)
   }
 
+
   return (
     <main className="flex min-h-screen p-24">
       <div className="flex flex-col h-full w-full items-center justify-center my-auto">
@@ -82,6 +101,7 @@ const AdminPage = (): JSX.Element => {
           experiments={data.experiments}
           addExperiment={addNewExperiment}
         />
+        <LogoutButton />
       </div>
     </main>
   )
@@ -154,14 +174,27 @@ const AddExperimentWidget = ({
 }
 
 const AdminLoginForm = (props:any):JSX.Element => {
-  return (<div>
-    <div><div>login</div>
-    <textarea style={{color:'black'}} value={props.login} onChange={(e)=> props.setLogin(e.target.value)}/></div>
-    <div>
-      <div>hasło</div>
-      <textarea style={{color:'black'}}  value={props.password} onChange={(e) => {props.setPassword(e.target.value)}} /></div>
-    <button>Zaloguj sie</button>
-  </div>)
+  if (props.loggedIn) {
+    null
+  }
+
+  return (
+    <main className="flex min-h-screen p-24">
+      <div>
+        <div className="flex flex-col items-center z-10">
+          <div>
+            <div>Username</div>
+            <input className="text-black" value={props.login} onChange={(e) => props.setLogin(e.target.value)} />
+          </div>
+          <div>
+            <div>Password</div>
+            <input className="text-black" value={props.password} onChange={(e) => props.setPassword(e.target.value)} />
+          </div>
+          <button>LOGIN</button>
+        </div>
+      </div>
+    </main>
+  )
 }
 
 export default AdminPage

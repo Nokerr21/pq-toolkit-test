@@ -4,7 +4,7 @@
 ## Perceptual qualities Python toolkit - project expansion
 ---
 
-The aim of this project is to improve Python toolkit that, helps with creating and conducting experiments that asses perceptual quality of audio.
+The aim of this project is to improve Python toolkit that, helps with creating and conducting experiments, that asses perceptual quality of audio.
 
 As part of the project expansion, we will undertake the improvement of the UI, including the addition of feedback fields, the addition of an authorization system to the admin panel and the creation of a database that would collect results of perceptual tests.
 
